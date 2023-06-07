@@ -4,7 +4,7 @@ def main():
     key = "password"  # Predefined key
 
     # Prompt the user to enter a word
-    user_input = input("Enter a word: ")
+    user_input = input()
 
     # Check if the user input matches the key
     if user_input == key:
