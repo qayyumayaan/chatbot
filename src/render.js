@@ -1,18 +1,24 @@
 window.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.querySelector('input[type="submit"]');
     const inputBox = document.querySelector('#input');
+    const messageContainer = document.querySelector('#message-container');
   
     const processInputText = (text) => {
       if (text === 'password') {
-        console.log('yay!');
+        createMessageElement('You: ' + text);
       }
+    };
+  
+    const createMessageElement = (message) => {
+      const messageElement = document.createElement('p');
+      messageElement.textContent = message;
+      messageContainer.appendChild(messageElement);
     };
   
     const printInputText = () => {
       const text = inputBox.value;
-      console.log(text);
       processInputText(text);
-      inputBox.value = ''; 
+      inputBox.value = ''; // Clear the input box
     };
   
     submitButton.addEventListener('click', printInputText);
