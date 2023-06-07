@@ -4,8 +4,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const messageContainer = document.querySelector('#message-container');
   
     const processInputText = (text) => {
+      createMessageElement('You: ' + text);
       if (text === 'password') {
-        createMessageElement('You: ' + text);
+        createMessageElement('Bot: yay!');
       }
     };
   
