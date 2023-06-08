@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const processInputText = (text) => {
     createMessageElement('You: ' + text);
 
-    let pyshell = new PythonShell('src/localGPT/main.py');
+    let pyshell = new PythonShell('src/localGPT/run_localGPT.py');
 
     pyshell.send(text);
 

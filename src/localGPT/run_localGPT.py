@@ -90,20 +90,25 @@ def main(device_type):
     qa = RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
     )
+    
+    print("Ready!")
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ")
+        # query = input("\nEnter a query: ")
+        query = input()
+
         if query == "exit":
             break
 
+        print("Thinking...")
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        print("\n\n> Question:")
-        print(query)
-        print("\n> Answer:")
+        # print("\n\n> Question:")
+        # print(query)
+        # print("\n> Answer:")
         print(answer)
 
         # # Print the relevant sources used for the answer
