@@ -1,6 +1,6 @@
 const { PythonShell } = require('python-shell');
 
-// let pyshell = new PythonShell('src/localGPT/main.py');
+let pyshell = new PythonShell('src/localGPT/run_localGPT.py');
 
 window.addEventListener('DOMContentLoaded', () => {
   const submitButton = document.querySelector('input[type="submit"]');
@@ -12,9 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const processInputText = (text) => {
     createMessageElement('You: ' + text);
 
-    let pyshell = new PythonShell('src/localGPT/run_localGPT.py');
-
-    pyshell.send(text);
+    pyshell.send(text); 
 
     pyshell.on('message', function (message) {
       if (message.startsWith('RESPONSE:')) {
