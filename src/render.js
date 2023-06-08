@@ -50,16 +50,20 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const copyConversation = () => {
-    const conversation = messageContainer.innerText;
-    navigator.clipboard.writeText(conversation)
-      .then(() => {
-        alert('Conversation copied to clipboard!');
-      })
-      .catch((error) => {
-        console.error('Failed to copy conversation: ', error);
-      });
-  };
-
+    const conversation = messageContainer.innerText.trim();
+    if (conversation !== '') {
+      navigator.clipboard.writeText(conversation)
+        .then(() => {
+          copyButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyButton.textContent = 'Copy';
+          }, 3000);
+        })
+        .catch((error) => {
+          console.error('Failed to copy conversation: ', error);
+        });
+    }
+  };  
   submitButton.addEventListener('click', printInputText);
 
   inputBox.addEventListener('keyup', (event) => {
