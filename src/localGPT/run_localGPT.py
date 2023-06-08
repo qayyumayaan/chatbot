@@ -24,7 +24,7 @@ def load_model():
         #   load_in_8bit=True, # set these options if your GPU supports them!
         #   device_map=1#'auto',
         #   torch_dtype=torch.float16,
-        #   low_cpu_mem_usage=True
+          low_cpu_mem_usage=True
     )
 
     pipe = pipeline(
