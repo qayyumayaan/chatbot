@@ -77,18 +77,28 @@ input[type="submit"] {
   margin: 10px;
 }
 
-#clear-button {
-  margin-left: auto; 
-  margin-right: auto;
-  display: block;
+#clear-button,
+#copy-button {
   padding: 10px 20px;
-  background-color: #F44336;
+  background-color: #3682f4;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-h1, p, #clear-button {
+h1, p, #clear-button, #copy-button {
   text-align: center; 
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#clear-button {
+  margin-right: 5px; 
+  background-color: #F44336;
 }
