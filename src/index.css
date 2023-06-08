@@ -27,7 +27,7 @@ body {
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
-  margin: 0 auto; 
+  margin: 0;
   text-align: center;
 }
 
@@ -59,7 +59,7 @@ input[type="submit"] {
 input[type="text"] {
   padding: 10px 20px;
   background-color: white;
-  color: #4CAF50;
+  color: black;
   border: none;
   border-radius: 5px;
   cursor: text;
