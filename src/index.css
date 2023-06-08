@@ -64,6 +64,19 @@ input[type="text"] {
   cursor: text;
 }
 
+#input-box-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"],
+input[type="submit"] {
+  margin: 10px;
+}
+
+
 
 #clear-button {
   margin-left: 10px;
