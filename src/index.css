@@ -4,4 +4,63 @@ body {
   margin: auto;
   max-width: 38rem;
   padding: 2rem;
+  background-color: #E6E6FA;
+}
+
+
+#message-container {
+  width: 80%;
+  margin: auto;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+  height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#message-container p {
+  max-width: 70%;
+  min-width: 30%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#message-container p::before {
+  content: attr(data-user);
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+#message-container p[data-user="You:"] {
+  align-self: flex-end;
+  background-color: #ADD8E6;
+}
+
+#message-container p[data-user="Bot:"] {
+  background-color: #F0E68C;
+}
+
+input[type="submit"] {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #F44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
