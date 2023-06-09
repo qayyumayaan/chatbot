@@ -6,9 +6,11 @@ from langchain.llms import HuggingFacePipeline
 from langchain.vectorstores import Chroma
 from transformers import LlamaForCausalLM, LlamaTokenizer, pipeline
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
+import torch
 
+useGPU = True
 
-def load_model():
+def load_model(device):
     """
     Select a model on huggingface.
     If you are running this for the first time, it will download a model for you.
@@ -17,14 +19,15 @@ def load_model():
     
     model_id = "TheBloke/vicuna-7B-1.1-HF"
     tokenizer = LlamaTokenizer.from_pretrained(model_id)
-
     model = LlamaForCausalLM.from_pretrained(
         model_id,
-        #   load_in_8bit=True, # set these options if your GPU supports them!
-        #   device_map=1#'auto',
-        #   torch_dtype=torch.float16,
+        # load_in_8bit=True, # set these options if your GPU supports them!
+        # device_map='auto',
+        # torch_dtype=torch.float16,
         low_cpu_mem_usage=True
     )
+
+    model.to(device)
 
     pipe = pipeline(
         "text-generation",
@@ -34,6 +37,7 @@ def load_model():
         temperature=0,
         top_p=0.95,
         repetition_penalty=1.15,
+        device=device,
     )
 
     local_llm = HuggingFacePipeline(pipeline=pipe)
@@ -70,12 +74,13 @@ def load_model():
     help="Device to run on. (Default is cuda)",
 )
 def main(device_type):
-    string = f"Running on: {device_type}"
-    # print(json.dumps({"response": string}))
+    device = torch.device(0) if torch.cuda.is_available() and device_type == "cuda" else torch.device("cpu")
+    # device = torch.device(device_type) if torch.cuda.is_available() and device_type == "cuda" else torch.device("cpu")
+    string = f"Running on: {device}"
     print(string)
 
     embeddings = HuggingFaceInstructEmbeddings(
-        model_name="hkunlp/instructor-xl", model_kwargs={"device": device_type}
+        model_name="hkunlp/instructor-xl", model_kwargs={"device": device}
     )
     # load the vectorstore
     db = Chroma(
@@ -85,7 +90,7 @@ def main(device_type):
     )
     retriever = db.as_retriever()
     # Prepare the LLM
-    llm = load_model()
+    llm = load_model(device)
     qa = RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
     )
