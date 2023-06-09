@@ -14,9 +14,24 @@ window.addEventListener('DOMContentLoaded', () => {
   const clearButton = document.querySelector('#clear-button');
   const copyButton = document.querySelector('#copy-button'); 
 
+  const createMessageElement = (message) => {
+    const messageElement = document.createElement('p');
+    const user = message.split(' ')[0] + ' ';
+    messageElement.setAttribute('data-user', user);
+    messageElement.textContent = message.slice(user.length);
+    messageContainer.appendChild(messageElement);
+  };
+
+  pyshell.on('message', function (message) {
+    if (message.startsWith('RESPONSE:')) {
+      createMessageElement('Bot: ' + message.slice(9));
+    } else {
+      console.log('Bot: ' + message.slice(9))
+    }
+  });
+
   const processInputText = (text) => {
     createMessageElement('You: ' + text);
-
     pyshell.send(text); 
 
     if (text.startsWith('exit')) {
@@ -25,24 +40,6 @@ window.addEventListener('DOMContentLoaded', () => {
         if (err) throw err;
       });
     }
-
-    pyshell.on('message', function (message) {
-      if (message.startsWith('RESPONSE:')) {
-        createMessageElement('Bot: ' + message.slice(9));
-      } else {
-        console.log('Bot: ' + message.slice(9))
-      }
-    });
-
-
-  };
-
-  const createMessageElement = (message) => {
-    const messageElement = document.createElement('p');
-    const user = message.split(' ')[0] + ' ';
-    messageElement.setAttribute('data-user', user);
-    messageElement.textContent = message.slice(user.length);
-    messageContainer.appendChild(messageElement);
   };
 
   const printInputText = () => {
@@ -72,6 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
   };  
+  
   submitButton.addEventListener('click', printInputText);
 
   inputBox.addEventListener('keyup', (event) => {
