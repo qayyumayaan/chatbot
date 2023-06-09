@@ -1,11 +1,10 @@
 import click
+import json
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
-# from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from transformers import LlamaForCausalLM, LlamaTokenizer, pipeline
-import torch
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 
@@ -24,7 +23,7 @@ def load_model():
         #   load_in_8bit=True, # set these options if your GPU supports them!
         #   device_map=1#'auto',
         #   torch_dtype=torch.float16,
-          low_cpu_mem_usage=True
+        low_cpu_mem_usage=True
     )
 
     pipe = pipeline(
@@ -71,7 +70,9 @@ def load_model():
     help="Device to run on. (Default is cuda)",
 )
 def main(device_type):
-    print(f"Running on: {device_type}")
+    string = f"Running on: {device_type}"
+    # print(json.dumps({"response": string}))
+    print(string)
 
     embeddings = HuggingFaceInstructEmbeddings(
         model_name="hkunlp/instructor-xl", model_kwargs={"device": device_type}
@@ -84,40 +85,36 @@ def main(device_type):
     )
     retriever = db.as_retriever()
     # Prepare the LLM
-    # callbacks = [StreamingStdOutCallbackHandler()]
-    # load the LLM for generating Natural Language responses.
     llm = load_model()
     qa = RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
     )
-    
-    print("RESPONSE:Ready!")
+
+    print(json.dumps({"response": "Ready!"}))
     # Interactive questions and answers
     while True:
-        # query = input("\nEnter a query: ")
         query = input()
 
         if query == "exit":
             break
 
-        print("RESPONSE:Thinking...")
+        print(json.dumps({"response": "Thinking..."}))
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        # print("\n\n> Question:")
-        # print(query)
-        # print("\n> Answer:")
-        print(f'RESPONSE:{answer}')
-    
-        # Print the relevant sources used for the answer
-        print("Sources:")
-        for document in docs:
-            print("\n>RESPONSE: " + document.metadata["source"] + ":")
-            print(document.page_content)
-        print("Finished printing my sources.")
+        print(json.dumps({"response": answer}))
 
+        # Print the relevant sources used for the answer
+        print(json.dumps({"response": "Sources:"}))
+
+        for document in docs:
+            string = "\n> " + document.metadata["source"] + ":"
+            print(json.dumps({"response": string}))
+            print(json.dumps({"response": document.page_content}))
+
+        print(json.dumps({"response": "Finished printing my sources."}))
 
 if __name__ == "__main__":
     main()
