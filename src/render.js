@@ -14,6 +14,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     pyshell.send(text); 
 
+    if (text.startsWith('exit')) {
+      createMessageElement('Bot: Bye!');
+      pyshell.end(function (err, code, signal) {
+        if (err) throw err;
+      });
+    }
+
     pyshell.on('message', function (message) {
       if (message.startsWith('RESPONSE:')) {
         createMessageElement('Bot: ' + message.slice(9));
@@ -22,9 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    pyshell.end(function (err, code, signal) {
-      if (err) throw err;
-    });
+
   };
 
   const createMessageElement = (message) => {
