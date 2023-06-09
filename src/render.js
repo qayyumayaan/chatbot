@@ -1,6 +1,11 @@
 const { PythonShell } = require('python-shell');
 
-let pyshell = new PythonShell('src/localGPT/run_localGPT.py');
+let options = {
+  mode: 'text',
+  pythonOptions: ['-u'], // get print results in real-time
+};
+
+let pyshell = new PythonShell('src/localGPT/run_localGPT.py', options);
 
 window.addEventListener('DOMContentLoaded', () => {
   const submitButton = document.querySelector('input[type="submit"]');
