@@ -112,15 +112,11 @@ def main(device_type):
         print(f'RESPONSE:{answer}')
     
         # Print the relevant sources used for the answer
-        # print(
-        #     "----------------------------------SOURCE DOCUMENTS---------------------------"
-        # )
-        # for document in docs:
-        #     print("\n> " + document.metadata["source"] + ":")
-        #     print(document.page_content)
-        # print(
-        #     "----------------------------------SOURCE DOCUMENTS---------------------------"
-        # )
+        print("Sources:")
+        for document in docs:
+            print("\n>RESPONSE: " + document.metadata["source"] + ":")
+            print(document.page_content)
+        print("Finished printing my sources.")
 
 
 if __name__ == "__main__":
