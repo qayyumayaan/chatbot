@@ -23,10 +23,13 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   pyshell.on('message', function (message) {
-    if (message.startsWith('RESPONSE:')) {
-      createMessageElement('Bot: ' + message.slice(9));
-    } else {
-      console.log('Bot: ' + message.slice(9))
+    try {
+      const parsedMessage = JSON.parse(message);
+      if (parsedMessage.response !== undefined) {
+        createMessageElement('Bot: ' + parsedMessage.response);
+      }
+    } catch (error) {
+      console.log(message);
     }
   });
 
@@ -69,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
   };  
-  
+
   submitButton.addEventListener('click', printInputText);
 
   inputBox.addEventListener('keyup', (event) => {
