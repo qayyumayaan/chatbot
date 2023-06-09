@@ -28,7 +28,7 @@ body {
   padding: 10px;
   margin-bottom: 10px;
   margin: 0;
-  text-align: center;
+  text-align: left; 
 }
 
 #message-container p::before {
